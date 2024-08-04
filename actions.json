@@ -1,0 +1,46 @@
+{
+  "plan_id": "ec5103e0-f458-404d-9cea-dec31123d39d",
+  "description": "Collects content of all notes and then answers to user question",
+  "initial_data": {
+    "user_request": "Request"
+  },
+  "actions": [
+    {
+      "system": "Notion",
+      "action_id": 1,
+      "depends_on": [],
+      "input_data": {},
+      "action_name": "get_pages",
+      "action_type": "TeamAction",
+      "requires_confirmation": false,
+      "requires_visualization": true
+    },
+    {
+      "system": "Notion",
+      "action_id": 2,
+      "depends_on": [
+        1
+      ],
+      "input_data": {
+        "pages": "actions[1][pages]"
+      },
+      "action_name": "get_all_page_contents",
+      "action_type": "TeamAction"
+    },
+    {
+      "system": "Notion",
+      "action_id": 3,
+      "depends_on": [
+        2
+      ],
+      "input_data": {
+        "page_contents": "actions[2][page_contents]",
+        "user_request": "initial_data[user_request]"
+      },
+      "action_name": "search_information_rag",
+      "action_type": "TeamAction",
+      "requires_confirmation": false,
+      "requires_visualization": true
+    }
+  ]
+}

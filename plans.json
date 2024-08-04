@@ -1,0 +1,206 @@
+[
+  {
+    "id": "88ab5106-2c15-44ea-abac-272bf27c51f9",
+    "description": "This plan will return, give back all your notes from the Notion system",
+    "initial_data": {
+      "user_request": "Request"
+    },
+    "actions": {
+      "1": {
+        "system": "Notion",
+        "action_id": 1,
+        "depends_on": [],
+        "input_data": {},
+        "action_name": "get_pages",
+        "action_type": "TeamAction",
+        "requires_confirmation": false,
+        "requires_visualization": true
+      }
+    },
+    "created_at": "2024-07-06T14:58:42.248357"
+  },
+  {
+    "id": "dc34b18b-acbb-4338-9b90-cb6c4c5077b7",
+    "description": "This plan is helps to create smart note in Notion",
+    "initial_data": {
+      "user_request": "Request"
+    },
+    "actions": {
+      "1": {
+        "system": "Notion",
+        "action_id": 1,
+        "depends_on": [],
+        "input_data": {
+          "user_request": "initial_data[user_request]"
+        },
+        "action_name": "extract_title_content",
+        "action_type": "TeamAction",
+        "requires_confirmation": false,
+        "requires_visualization": true
+      },
+      "2": {
+        "system": "Notion",
+        "action_id": 2,
+        "depends_on": [
+          1
+        ],
+        "input_data": {
+          "body": "actions[1][content]",
+          "title": "actions[1][title]"
+        },
+        "action_name": "create_page",
+        "action_type": "TeamAction",
+        "requires_confirmation": false,
+        "requires_visualization": true
+      }
+    },
+    "created_at": "2024-07-06T17:01:27.270078"
+  },
+  {
+    "id": "b5e20d10-e25e-45d7-bb8d-21aebe5652f5",
+    "description": "Search page using all existing pages in Notion and giving this note back",
+    "initial_data": {
+      "user_request": "Request"
+    },
+    "actions": {
+      "1": {
+        "system": "Notion",
+        "action_id": 1,
+        "depends_on": [],
+        "input_data": {},
+        "action_name": "get_pages",
+        "action_type": "TeamAction",
+        "requires_confirmation": false,
+        "requires_visualization": true
+      },
+      "2": {
+        "system": "Notion",
+        "action_id": 2,
+        "depends_on": [
+          1
+        ],
+        "input_data": {
+          "pages": "actions[1][pages]",
+          "user_request": "initial_data[user_request]"
+        },
+        "action_name": "search_page",
+        "action_type": "TeamAction",
+        "requires_confirmation": false,
+        "requires_visualization": false
+      },
+      "3": {
+        "system": "Notion",
+        "action_id": 3,
+        "depends_on": [
+          2
+        ],
+        "input_data": {
+          "page_id": "actions[2][page_id]"
+        },
+        "action_name": "get_page",
+        "action_type": "TeamAction",
+        "requires_confirmation": false,
+        "requires_visualization": true
+      }
+    },
+    "created_at": "2024-07-06T22:41:36.653971"
+  },
+  {
+    "id": "ec5103e0-f458-404d-9cea-dec31123d39d",
+    "description": "Collects content of all notes and then answers to user question",
+    "initial_data": {
+      "user_request": "Request"
+    },
+    "actions": {
+      "1": {
+        "system": "Notion",
+        "action_id": 1,
+        "depends_on": [],
+        "input_data": {},
+        "action_name": "get_pages",
+        "action_type": "TeamAction",
+        "requires_confirmation": false,
+        "requires_visualization": true
+      },
+      "2": {
+        "system": "Notion",
+        "action_id": 2,
+        "depends_on": [
+          1
+        ],
+        "input_data": {
+          "pages": "actions[1][pages]"
+        },
+        "action_name": "get_all_page_contents",
+        "action_type": "TeamAction",
+        "requires_confirmation": false,
+        "requires_visualization": false
+      },
+      "3": {
+        "system": "Notion",
+        "action_id": 3,
+        "depends_on": [
+          2
+        ],
+        "input_data": {
+          "user_request": "initial_data[user_request]",
+          "page_contents": "actions[2][page_contents]"
+        },
+        "action_name": "search_information_rag",
+        "action_type": "TeamAction",
+        "requires_confirmation": false,
+        "requires_visualization": true
+      }
+    },
+    "created_at": "2024-07-07T02:39:31.319966"
+  },
+  {
+    "id": "2ba3af44-5d53-421b-b9d6-4a83d8a32f60",
+    "description": "Search page using all existing pages in Notion and compare with users request and then delete it",
+    "initial_data": {
+      "user_request": "Request"
+    },
+    "actions": {
+      "1": {
+        "system": "Notion",
+        "action_id": 1,
+        "depends_on": [],
+        "input_data": {},
+        "action_name": "get_pages",
+        "action_type": "TeamAction",
+        "requires_confirmation": false,
+        "requires_visualization": true
+      },
+      "2": {
+        "system": "Notion",
+        "action_id": 2,
+        "depends_on": [
+          1
+        ],
+        "input_data": {
+          "pages": "actions[1][pages]",
+          "user_request": "initial_data[user_request]"
+        },
+        "action_name": "search_page",
+        "action_type": "TeamAction",
+        "requires_confirmation": false,
+        "requires_visualization": false
+      },
+      "3": {
+        "system": "Notion",
+        "action_id": 3,
+        "depends_on": [
+          2
+        ],
+        "input_data": {
+          "page_id": "actions[2][page_id]"
+        },
+        "action_name": "delete_page",
+        "action_type": "TeamAction",
+        "requires_confirmation": false,
+        "requires_visualization": true
+      }
+    },
+    "created_at": "2024-07-06T23:17:11.591306"
+  }
+]

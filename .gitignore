@@ -1,0 +1,6 @@
+.idea
+.venv
+.vscode
+.env
+node_modules
+testing
